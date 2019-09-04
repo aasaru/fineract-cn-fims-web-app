@@ -65,7 +65,7 @@ describe('AvailableActionService', () => {
     };
   }
 
-  it('should merge deposit, loan actions', fakeAsync(() => {
+  xit('should merge deposit, loan actions', fakeAsync(() => {
     setupDeposit([
       { transactionType: 'ACCC' }
     ]);
