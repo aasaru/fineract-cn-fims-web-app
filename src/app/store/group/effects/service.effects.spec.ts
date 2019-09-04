@@ -59,9 +59,16 @@ describe('Group Search Api Effects', () => {
     }
 
     it('should return a new SearchCompleteAction with GroupPage', fakeAsync(() => {
-      const groupPage: GroupPage = {
-        groups: [
-          { name: '',identifier:'', groupDefinitionIdentifier: '', status: {}, office: ''}
+      const groupPage: {
+        totalPages: number;
+        groups: {
+          identifier: string;
+          groupDefinitionIdentifier: string;
+          name: string;
+          office: string; status: {}
+        }[];
+        totalElements: number } = {
+          groups: [{ name: '', identifier: '', groupDefinitionIdentifier: '', status: {}, office: ''}
         ],
         totalElements: 1,
         totalPages: 1

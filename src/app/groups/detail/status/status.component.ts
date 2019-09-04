@@ -18,7 +18,7 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {CommandAction,GroupCommand} from '../../../services/group/domain/group-command.model';
+import {CommandAction, GroupCommand} from '../../../services/group/domain/group-command.model';
 import {GroupsStore} from '../../store/index';
 import {EXECUTE_COMMAND} from '../../store/groupTasks/group-task.actions';
 import {Group} from '../../../services/group/domain/group.model';
@@ -32,8 +32,8 @@ import {Observable} from 'rxjs/Observable';
 interface StatusCommand {
   action: CommandAction;
   note?: string;
-  createdBy?:'';
-  createdOn?:'';                                                                
+  createdBy?: '';
+  createdOn?: '';
 }
 
 @Component({
@@ -44,8 +44,8 @@ export class GroupStatusComponent implements OnInit {
   private groupIdentifier: string;
   private groupSubscription: Subscription;
   group: Group;
-  username:Observable<string>;
-  name :Subscription;
+  username: Observable<string>;
+  name: Subscription;
   name1: string;
 
   statusCommands: StatusCommand[] = [
@@ -54,29 +54,28 @@ export class GroupStatusComponent implements OnInit {
     { action: 'REOPEN' }
   ];
 
-  constructor(private route: ActivatedRoute, private store: GroupsStore,private store1: Store<fromRoot.State>) {}
+  // getting the presence time
+  private d = new Date();
+  private n = this.d.toISOString();
+
+  constructor(private route: ActivatedRoute, private store: GroupsStore, private store1: Store<fromRoot.State>) {}
 
   ngOnInit(): void {
    this.groupSubscription = this.store.select(fromGroups.getSelectedGroup)
      .subscribe(group => this.group = group);
 
     this.username = this.store1.select(fromRoot.getUsername)
-      this.name = this.username.subscribe(res =>this.name1 =res);
-    
+      this.name = this.username.subscribe(res => this.name1 = res);
   }
-  
-//getting the presence time
-  private d = new Date();
-  private n = this.d.toISOString();
 
 
 
   executeCommand(statusCommand: StatusCommand): void {
-    let command: GroupCommand = {
+    const command: GroupCommand = {
        action: statusCommand.action,
        note: statusCommand.note,
-       createdBy:this.name1,
-       createdOn:this.n
+       createdBy: this.name1,
+       createdOn: this.n
      };
     this.store.dispatch({ type: EXECUTE_COMMAND, payload: {
       groupId: this.group.identifier,
@@ -86,16 +85,16 @@ export class GroupStatusComponent implements OnInit {
   }
 
 
-  //executeCommand(statusCommand: StatusCommand): void {
+  // executeCommand(statusCommand: StatusCommand): void {
    // const command: GroupCommand = {
      // note: statusCommand.note,
-      //action: statusCommand.action
-    //};
-    //this.store.dispatch({ type: EXECUTE_COMMAND, payload: {
-      //groupId: this.groupIdentifier,
-      //command: command,
-      //activatedRoute: this.route
-    //} });
+      // action: statusCommand.action
+    // };
+    // this.store.dispatch({ type: EXECUTE_COMMAND, payload: {
+      // groupId: this.groupIdentifier,
+      // command: command,
+      // activatedRoute: this.route
+    // } });
  // }
 
 }

@@ -32,10 +32,10 @@ import {FrequencyOptionList} from '../domain/frequency-option-list.model';
 import {AdjustmentOptionList} from '../domain/adjustment-option-list.model';
 
 @Component({
-    selector: 'fims-groupDefinition-form-component',
+    selector: 'fims-group-definition-form-component',
     templateUrl: './form.component.html'
 })
-export class GroupDefinitionFormComponent implements OnInit {
+export class GroupDefinitionFormComponent implements OnInit, OnChanges {
     form: FormGroup;
 
     frequencyOptions = FrequencyOptionList;
@@ -52,8 +52,8 @@ export class GroupDefinitionFormComponent implements OnInit {
 
     @ViewChild('detailsStep') detailsStep: TdStepComponent;
 
-    constructor(private formBuilder: FormBuilder){
-    
+    constructor(private formBuilder: FormBuilder) {
+
         this.form = this.formBuilder.group({
             identifier: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32), FimsValidators.urlSafe]],
             minimal: ['', [Validators.required, FimsValidators.minValue(0)]],
@@ -73,7 +73,7 @@ ngOnInit(): void {
       this.form.reset({
         identifier: this.groupDefinition.identifier,
         minimal: this.groupDefinition.minimalSize,
-        maximal:this.groupDefinition.maximalSize,
+        maximal: this.groupDefinition.maximalSize,
         description: this.groupDefinition.description,
         number: this.groupDefinition.cycle.numberOfMeetings,
         frequency: this.groupDefinition.cycle.frequency,
@@ -83,16 +83,16 @@ ngOnInit(): void {
 
 
     save() {
-        
-        const groupDefinition : GroupDefinition = {
-          identifier :this.form.get('identifier').value,
+
+        const groupDefinition: GroupDefinition = {
+          identifier : this.form.get('identifier').value,
           description: this.form.get('description').value,
-          minimalSize:this.form.get('minimal').value,
+          minimalSize: this.form.get('minimal').value,
           maximalSize: this.form.get('maximal').value,
-          cycle:{
-              numberOfMeetings:this.form.get('number').value,
-              frequency:this.form.get('frequency').value,
-              adjustment:this.form.get('adjustment').value
+          cycle: {
+              numberOfMeetings: this.form.get('number').value,
+              frequency: this.form.get('frequency').value,
+              adjustment: this.form.get('adjustment').value
           }
         };
         this.onSave.emit(groupDefinition);
