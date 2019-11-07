@@ -20,6 +20,6 @@ COPY --from=node /usr/src/app/dist /usr/share/nginx/html
 
 COPY ./scripts/nginx/docker.nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 8888
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
